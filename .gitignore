@@ -7,3 +7,4 @@ site
 .stylelintrc
 package-lock.json
 .idea/workspace.xml
+.eslintrc.js
