@@ -4,5 +4,6 @@ bower_components
 dist
 site
 .tmp
-.publish
-TODO
+.stylelintrc
+package-lock.json
+.idea/workspace.xml
