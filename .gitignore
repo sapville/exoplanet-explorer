@@ -6,3 +6,5 @@ site
 .tmp
 .publish
 TODO
+.eslintrc.js
+.idea/workspace.xml
