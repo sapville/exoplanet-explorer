@@ -72,32 +72,51 @@ Instructions:
     /*
     Refactor this code!
      */
+
+    /**
+     * The code below works in series (provided by Udacity)
+     */
     getJSON('../data/earth-like-results.json')
       .then((planets) => {
-        const planetsShown = [];
-        planets.results.forEach(function (url) {
-          getJSON(url)
-            .then((planet) => {
-              planetsShown.push({
-                index: planets.results.indexOf(url),
-                object: planet
-              });
-            })
-            .catch((error) => {console.log(error);});
-        });
-        return new Promise((resolve) => {
-          const interval = setInterval(() => {
-            if (planetsShown.length === planets.results.length) {
-              clearInterval(interval);
-              resolve(planetsShown);
-            }
-          }, 10);
+        let sequence = Promise.resolve();
+        planets.results.forEach((url) => {
+          sequence = sequence.then(() => getJSON(url)).then(createPlanetThumb);
         });
       })
-      .catch((error) => {console.log(error);})
-      .then((planetsToShow) => {
-        planetsToShow.sort((a, b) => a.index - b.index);
-        planetsToShow.forEach((planet) => {createPlanetThumb(planet.object);});
-      });
+      .catch((error) => {console.log(error);});
+
+    /**
+     * This code works in parallel but shows cards in a fixed order
+     */
+
+    /*
+        getJSON('../data/earth-like-results.json')
+          .then((planets) => {
+            const planetsShown = [];
+            planets.results.forEach(function (url) {
+              getJSON(url)
+                .then((planet) => {
+                  planetsShown.push({
+                    index: planets.results.indexOf(url),
+                    object: planet
+                  });
+                })
+                .catch((error) => {console.log(error);});
+            });
+            return new Promise((resolve) => {
+              const interval = setInterval(() => {
+                if (planetsShown.length === planets.results.length) {
+                  clearInterval(interval);
+                  resolve(planetsShown);
+                }
+              }, 10);
+            });
+          })
+          .catch((error) => {console.log(error); })
+          .then((planetsToShow) => {
+            planetsToShow.sort((a, b) => a.index - b.index);
+            planetsToShow.forEach((planet) => {createPlanetThumb(planet.object);});
+          });
+    */
   });
 })(document);
